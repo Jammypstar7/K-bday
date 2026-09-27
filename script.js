@@ -1,1128 +1,787 @@
-/* =========================================
-   KUSHU'S BIRTHDAY WEBSITE
-========================================= */
+/* ========================================= */
+/* KUSHU BIRTHDAY WEBSITE */
+/* ========================================= */
 
+/* ========================================= */
+/* OPENING SCREEN */
+/* ========================================= */
 
-/* =========================================
-   OPENING SCREEN
-========================================= */
-
+const openButton = document.getElementById("openButton");
 const openingScreen = document.getElementById("openingScreen");
 const mainContent = document.getElementById("mainContent");
-const openButton = document.getElementById("openButton");
 
 if (openButton) {
-
     openButton.addEventListener("click", () => {
-
-        if (openingScreen) {
-            openingScreen.classList.add("hidden");
-        }
-
-        setTimeout(() => {
-
-            if (mainContent) {
-                mainContent.classList.remove("hidden");
-                mainContent.classList.add("visible");
-            }
-
-        }, 300);
-
         birthdayExplosion();
 
-    });
+        openingScreen.classList.add("hidden");
 
+        setTimeout(() => {
+            mainContent.classList.remove("hidden");
+            mainContent.classList.add("visible");
+            window.scrollTo(0, 0);
+        }, 500);
+    });
 }
 
 
-/* =========================================
-   TRAIT CARDS
-========================================= */
+/* ========================================= */
+/* TRAIT CARDS */
+/* ========================================= */
 
-const traitCards =
-    document.querySelectorAll(".trait-card");
-
-const traitResponse =
-    document.getElementById("traitResponse");
-
+const traitCards = document.querySelectorAll(".trait-card");
 
 traitCards.forEach(card => {
-
     card.addEventListener("click", () => {
+        const message = card.dataset.message;
 
-        const response =
-            card.dataset.message;
-
-        if (traitResponse && response) {
-
-            traitResponse.textContent =
-                response;
-
-            traitResponse.classList.remove("show");
-
-            setTimeout(() => {
-
-                traitResponse.classList.add("show");
-
-            }, 50);
-
+        if (message) {
+            showMemoryModal(
+                card.querySelector("h3")?.textContent || "Kushu",
+                message
+            );
         }
-
     });
-
 });
 
 
-/* =========================================
-   MEMORY GARDEN
-========================================= */
-
-const memoryFlowers =
-    document.querySelectorAll(".memory-flower");
-
-const memoryModal =
-    document.getElementById("memoryModal");
-
-const modalClose =
-    document.getElementById("modalClose");
-
-const modalIcon =
-    document.getElementById("modalIcon");
-
-const modalTitle =
-    document.getElementById("modalTitle");
-
-const modalText =
-    document.getElementById("modalText");
-
-
-const memories = {
-
-    sleeping: {
-
-        icon: "🌙",
-
-        title: "The sleepy little moments",
-
-        text:
-            "Those times when we just left the chat open and eventually fell asleep... there was something strangely comforting about knowing you were there."
-
-    },
-
-    series: {
-
-        icon: "📺",
-
-        title: "The series department",
-
-        text:
-            "Downloading series, putting them on Drive, and basically becoming an extremely unofficial streaming service because I wanted you to have something nice to watch."
-
-    },
-
-    questions: {
-
-        icon: "🌸",
-
-        title: "Your random questions",
-
-        text:
-            "Some of the cutest conversations came from the completely random things you asked. Somehow even the most ordinary conversations became memorable."
-
-    },
-
-    like: {
-
-        icon: "♡",
-
-        title: "That one sentence",
-
-        text:
-            "When you actually said 'I like you'... yeah. That sentence definitely got permanently archived in my brain."
-
-    },
-
-    smile: {
-
-        icon: "☀️",
-
-        title: "Just you being there",
-
-        text:
-            "Sometimes you don't even have to do anything. Somehow just knowing you're around is enough to make an ordinary day feel a little better."
-
-    }
-
-};
-
-
-memoryFlowers.forEach(flower => {
-
-    flower.addEventListener("click", () => {
-
-        const memoryName =
-            flower.dataset.memory;
-
-        const memory =
-            memories[memoryName];
-
-        if (!memory || !memoryModal) {
-            return;
-        }
-
-        if (modalIcon) {
-            modalIcon.textContent =
-                memory.icon;
-        }
-
-        if (modalTitle) {
-            modalTitle.textContent =
-                memory.title;
-        }
-
-        if (modalText) {
-            modalText.textContent =
-                memory.text;
-        }
-
-        /*
-            IMPORTANT:
-            Remove "hidden" so the modal
-            can actually become visible.
-        */
-
-        memoryModal.classList.remove("hidden");
-        memoryModal.classList.add("show");
-
-    });
-
-});
-
-
-if (modalClose) {
-
-    modalClose.addEventListener("click", () => {
-
-        if (memoryModal) {
-
-            memoryModal.classList.remove("show");
-            memoryModal.classList.add("hidden");
-
-        }
-
-    });
-
-}
-
-
-if (memoryModal) {
-
-    memoryModal.addEventListener("click", event => {
-
-        if (event.target === memoryModal) {
-
-            memoryModal.classList.remove("show");
-            memoryModal.classList.add("hidden");
-
-        }
-
-    });
-
-}
-
-
-/* =========================================
-   20 HAMSTERS
-========================================= */
-
-const hamsterMessages = {
-
-    mhmm:
-        "mhmm... ;_;",
-
-    shutup:
-        "SHUTUP 😳",
-
-    birthday:
-        "HAPPY BIRTHDAY KUSHU!! 🎀",
-
-    business:
-        "I have important hamster business to attend to.",
-
-    equation:
-        "Hamster + Kushu = excessive cuteness.",
-
-    dal:
-        "DAL CHAWAL. THIS IS NOT A DISCUSSION. 🍚",
-
-    gothic:
-        "Cute on the outside. Gothic hamster on the inside. 🖤",
-
-    panda:
-        "I would like to formally request a panda friend. 🐼",
-
-    dog:
-        "WOOF. I have been informed that Kushu likes dogs.",
-
-    overthinking:
-        "STOP OVERTHINKING. THE HAMSTER HAS SPOKEN. 🐹",
-
-    cute:
-        "This hamster has officially classified you as cute.",
-
-    sleep:
-        "shhh... hamster is sleepy... 💤",
+/* ========================================= */
+/* MEMORY GARDEN */
+/* ========================================= */
+
+const memoryFlowers = document.querySelectorAll(".memory-flower");
+
+const memoryMessages = {
+    sleeping:
+        "Those nights when we would just leave the chat open while sleeping... somehow doing absolutely nothing together still felt like being close. ♡",
 
     series:
-        "Did somebody say another series? 👀",
+        "Downloading series, uploading them to Drive, making sure you had something to watch... tiny things, but I genuinely liked doing them for you.",
 
-    hehe:
-        "hehe. 🎀",
+    questions:
+        "All those random questions and stupid little conversations. Half the time I probably had no idea where the conversation was going either. 😂",
 
-    flustered:
-        "WARNING: KUSHU IS FLUSTERED. EVACUATE IMMEDIATELY.",
+    like:
+        "That one little \"I like you\" meant way more to me than you probably realised. I still remember it.",
 
-    love:
-        "Love department says: you're very important. ♡",
+    smile:
+        "Sometimes you don't even have to do anything. Just having you around somehow makes my day a little better."
+};
 
-    important:
-        "Extremely important hamster meeting in progress.",
+memoryFlowers.forEach(flower => {
+    flower.addEventListener("click", () => {
+        const key = flower.dataset.memory;
+        const message = memoryMessages[key];
 
-    tiny:
-        "tiny hamster. gigantic responsibilities.",
+        if (message) {
+            showMemoryModal(
+                "A little Kushu memory ♡",
+                message
+            );
+        }
+    });
+});
 
-    queen:
-        "The hamster council recognizes the birthday queen. 👑",
 
-    final:
-        "Happy birthday, Kushu. ♡ From all 20 of us."
+/* ========================================= */
+/* MEMORY MODAL */
+/* ========================================= */
 
+const memoryModal = document.getElementById("memoryModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalText = document.getElementById("modalText");
+const modalClose = document.getElementById("modalClose");
+
+function showMemoryModal(title, text) {
+    if (!memoryModal) return;
+
+    if (modalTitle) modalTitle.textContent = title;
+    if (modalText) modalText.textContent = text;
+
+    memoryModal.classList.remove("hidden");
+}
+
+if (modalClose) {
+    modalClose.addEventListener("click", () => {
+        memoryModal.classList.add("hidden");
+    });
+}
+
+if (memoryModal) {
+    memoryModal.addEventListener("click", event => {
+        if (event.target === memoryModal) {
+            memoryModal.classList.add("hidden");
+        }
+    });
+}
+
+
+/* ========================================= */
+/* HAMSTERS */
+/* ========================================= */
+
+const hamsters = document.querySelectorAll(".hamster");
+
+const hamsterMessages = {
+    1: "Tiny hamster says: you are very, very loved. 🐹♡",
+    2: "This hamster has been assigned to protect your happiness.",
+    3: "He knows about the mhmm. He will not tell anyone.",
+    4: "Emergency hamster delivery! One friendship. One smile. No refunds.",
+    5: "This hamster would absolutely share dal chawal with you.",
+    6: "He has decided that you are cute. His decision is final.",
+    7: "A hamster has entered the chat. Please remain calm.",
+    8: "This one is just here because you like hamsters. Valid reason.",
+    9: "He heard you say shutup and immediately became concerned.",
+    10: "Halfway through the hamster department. Still no signs of professionalism.",
+    11: "This hamster has one job: make Kushu smile.",
+    12: "He has watched Demon Slayer and now thinks he is extremely powerful.",
+    13: "A tiny creature carrying a very large amount of affection.",
+    14: "This hamster would probably panic if you said 'shutup' to him.",
+    15: "Certified Kushu appreciation hamster. Officially licensed.",
+    16: "He doesn't understand the situation, but he supports you anyway.",
+    17: "Panda hamster? No. Hamster hamster. Still adorable.",
+    18: "One more hamster after this. The department is almost finished.",
+    19: "This is hamster number 19. Yes, I remembered you. 🐹",
+    20: "The final hamster has arrived. Happy Birthday, Kushu. ♡"
 };
 
 
-const hamsters =
-    document.querySelectorAll(".hamster");
-
-let foundHamsters =
-    new Set();
-
-
-hamsters.forEach(hamster => {
+hamsters.forEach((hamster, index) => {
 
     hamster.addEventListener("click", () => {
 
-        const hamsterType =
-            hamster.dataset.hamster;
+        const number = String(index + 1);
 
         const message =
-            hamsterMessages[hamsterType];
+            hamsterMessages[number] ||
+            "This hamster forgot what he was supposed to say. 🐹";
 
-        if (message) {
-            showHamsterMessage(message);
-        }
 
-        hamster.classList.add("found");
+        /* Remove any old hamster dialogue */
 
-        foundHamsters.add(hamsterType);
+        document.querySelectorAll(".hamster-dialogue").forEach(dialogue => {
+            dialogue.remove();
+        });
 
-        if (foundHamsters.size === 20) {
+
+        /* Create the dialogue */
+
+        const dialogue = document.createElement("div");
+
+        dialogue.className = "hamster-dialogue";
+
+        dialogue.textContent = message;
+
+
+        /* Position it near the hamster */
+
+        const rect = hamster.getBoundingClientRect();
+
+        dialogue.style.position = "fixed";
+
+        dialogue.style.left =
+            `${rect.left + rect.width / 2}px`;
+
+        dialogue.style.top =
+            `${rect.top - 15}px`;
+
+        dialogue.style.transform =
+            "translate(-50%, -100%)";
+
+        dialogue.style.zIndex = "10001";
+
+        dialogue.style.maxWidth = "280px";
+
+        dialogue.style.padding =
+            "12px 16px";
+
+        dialogue.style.borderRadius =
+            "18px";
+
+        dialogue.style.background =
+            "white";
+
+        dialogue.style.color =
+            "#5d3b50";
+
+        dialogue.style.fontSize =
+            "14px";
+
+        dialogue.style.lineHeight =
+            "1.4";
+
+        dialogue.style.textAlign =
+            "center";
+
+        dialogue.style.boxShadow =
+            "0 8px 25px rgba(0,0,0,0.12)";
+
+        dialogue.style.border =
+            "2px solid #f3c6dc";
+
+        dialogue.style.pointerEvents =
+            "none";
+
+        dialogue.style.opacity =
+            "0";
+
+        dialogue.style.transition =
+            "opacity 0.2s ease, transform 0.2s ease";
+
+
+        document.body.appendChild(dialogue);
+
+
+        /* Little pop-in animation */
+
+        requestAnimationFrame(() => {
+
+            dialogue.style.opacity = "1";
+
+            dialogue.style.transform =
+                "translate(-50%, -110%)";
+        });
+
+
+        /* Make hamster bounce */
+
+        hamster.animate(
+            [
+                {
+                    transform: "scale(1)"
+                },
+                {
+                    transform: "scale(1.12) rotate(-4deg)"
+                },
+                {
+                    transform: "scale(1.08) rotate(4deg)"
+                },
+                {
+                    transform: "scale(1)"
+                }
+            ],
+            {
+                duration: 350,
+                easing: "ease-out"
+            }
+        );
+
+
+        /* Remove dialogue after a few seconds */
+
+        setTimeout(() => {
+
+            dialogue.style.opacity = "0";
+
+            dialogue.style.transform =
+                "translate(-50%, -100%)";
 
             setTimeout(() => {
+                dialogue.remove();
+            }, 250);
 
-                showHamsterMessage(
-                    "YOU FOUND ALL 20 HAMSTERS. THE COUNCIL APPROVES. 🐹🎀"
-                );
-
-            }, 400);
-
-        }
+        }, 3500);
 
     });
 
 });
 
 
-function showHamsterMessage(message) {
+/* ========================================= */
+/* LETTER */
+/* ========================================= */
 
-    let messageBox =
-        document.getElementById("hamsterMessage");
+const letterSection = document.querySelector(".letter-section");
 
-    if (!messageBox) {
+if (letterSection) {
+    const letter = letterSection.querySelector(".letter");
 
-        messageBox =
-            document.createElement("div");
-
-        messageBox.id =
-            "hamsterMessage";
-
-        document.body.appendChild(
-            messageBox
-        );
-
+    if (letter) {
+        letter.addEventListener("click", () => {
+            createHeart(
+                window.innerWidth / 2,
+                window.innerHeight / 2
+            );
+        });
     }
-
-    messageBox.textContent =
-        message;
-
-    messageBox.classList.remove("show");
-
-    setTimeout(() => {
-
-        messageBox.classList.add("show");
-
-    }, 20);
-
-    clearTimeout(
-        window.hamsterMessageTimeout
-    );
-
-    window.hamsterMessageTimeout =
-        setTimeout(() => {
-
-            messageBox.classList.remove("show");
-
-        }, 2500);
-
 }
 
 
-/* =========================================
-   CURSOR HEART EFFECT
-========================================= */
+/* ========================================= */
+/* QUESTION GAME */
+/* ========================================= */
 
-document.addEventListener("mousemove", event => {
+const questionStart = document.getElementById("questionStart");
+const questionIntro = document.getElementById("questionIntro");
+const questionGame = document.getElementById("questionGame");
 
-    if (Math.random() > 0.92) {
+const yesButton = document.getElementById("yesButton");
+const noButton = document.getElementById("noButton");
 
-        createHeart(
-            event.clientX,
-            event.clientY
+const yesResult = document.getElementById("yesResult");
+const noResult = document.getElementById("noResult");
+
+const answerArea = document.querySelector(".answer-area");
+
+
+/* ----------------------------------------- */
+/* START QUESTION */
+/* ----------------------------------------- */
+
+if (questionStart) {
+    questionStart.addEventListener("click", () => {
+        questionIntro.classList.add("hidden");
+
+        if (questionGame) {
+            questionGame.classList.remove("hidden");
+        }
+
+        setupNoButton();
+    });
+}
+
+
+/* ========================================= */
+/* YES BUTTON */
+/* ========================================= */
+
+if (yesButton) {
+    yesButton.addEventListener("click", () => {
+
+        if (questionGame) {
+            questionGame.classList.add("hidden");
+        }
+
+        if (yesResult) {
+            yesResult.classList.remove("hidden");
+        }
+
+        birthdayExplosion();
+
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                createHeart(
+                    Math.random() * window.innerWidth,
+                    Math.random() * window.innerHeight
+                );
+            }, i * 100);
+        }
+    });
+}
+
+
+/* ========================================= */
+/* NO BUTTON */
+/* ========================================= */
+
+let noButtonReady = false;
+let lastNoMove = 0;
+
+function setupNoButton() {
+
+    if (!noButton || noButtonReady) return;
+
+    noButtonReady = true;
+
+    /*
+        IMPORTANT:
+
+        The NO button is removed from the answer box
+        and positioned relative to the entire browser window.
+    */
+
+    noButton.style.position = "fixed";
+    noButton.style.zIndex = "9999";
+
+    moveNoButton(true);
+
+
+    /* ------------------------------------- */
+    /* DESKTOP */
+/* ------------------------------------- */
+
+    document.addEventListener("mousemove", event => {
+
+        if (!noButton || noButton.classList.contains("hidden")) {
+            return;
+        }
+
+        const rect = noButton.getBoundingClientRect();
+
+        const buttonCenterX = rect.left + rect.width / 2;
+        const buttonCenterY = rect.top + rect.height / 2;
+
+        const dx = event.clientX - buttonCenterX;
+        const dy = event.clientY - buttonCenterY;
+
+        const distance = Math.sqrt(
+            dx * dx + dy * dy
         );
 
+        /*
+            If the mouse comes within 120px,
+            RUN.
+        */
+
+        if (distance < 120) {
+            moveNoButton();
+        }
+    });
+
+
+    /* ------------------------------------- */
+    /* CLICK */
+/* ------------------------------------- */
+
+    noButton.addEventListener("click", event => {
+
+        /*
+            The button NEVER accepts the click.
+            It immediately escapes.
+        */
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        moveNoButton();
+    });
+
+
+    /* ------------------------------------- */
+    /* TOUCH */
+/* ------------------------------------- */
+
+    noButton.addEventListener("touchstart", event => {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        moveNoButton();
+    }, {
+        passive: false
+    });
+}
+
+
+/* ========================================= */
+/* MOVE NO BUTTON */
+/* ========================================= */
+
+function moveNoButton(initial = false) {
+
+    if (!noButton) return;
+
+    const now = Date.now();
+
+    /*
+        Prevent it from teleporting hundreds of times
+        in the same millisecond when the cursor is close.
+    */
+
+    if (!initial && now - lastNoMove < 180) {
+        return;
     }
 
+    lastNoMove = now;
+
+
+    const buttonWidth = noButton.offsetWidth || 100;
+    const buttonHeight = noButton.offsetHeight || 50;
+
+    const padding = 25;
+
+
+    /*
+        FULL SCREEN movement.
+
+        The button can now appear anywhere on the
+        visible screen.
+    */
+
+    const maxX =
+        window.innerWidth -
+        buttonWidth -
+        padding;
+
+    const maxY =
+        window.innerHeight -
+        buttonHeight -
+        padding;
+
+
+    let randomX =
+        padding +
+        Math.random() * Math.max(1, maxX - padding);
+
+    let randomY =
+        padding +
+        Math.random() * Math.max(1, maxY - padding);
+
+
+    /*
+        Make sure it doesn't accidentally appear
+        directly underneath the cursor.
+    */
+
+    const mouseX = window.innerWidth / 2;
+    const mouseY = window.innerHeight / 2;
+
+    if (!initial) {
+
+        const distanceFromMouse = Math.sqrt(
+            Math.pow(randomX - mouseX, 2) +
+            Math.pow(randomY - mouseY, 2)
+        );
+
+        if (distanceFromMouse < 180) {
+
+            randomX =
+                padding +
+                Math.random() * Math.max(1, maxX - padding);
+
+            randomY =
+                padding +
+                Math.random() * Math.max(1, maxY - padding);
+        }
+    }
+
+
+    noButton.style.position = "fixed";
+    noButton.style.left = `${randomX}px`;
+    noButton.style.top = `${randomY}px`;
+
+    noButton.style.transition =
+        "left 0.12s ease, top 0.12s ease";
+
+    /*
+        Little shake when it escapes.
+    */
+
+    noButton.animate(
+        [
+            {
+                transform: "scale(1) rotate(0deg)"
+            },
+            {
+                transform: "scale(1.08) rotate(-4deg)"
+            },
+            {
+                transform: "scale(1) rotate(4deg)"
+            },
+            {
+                transform: "scale(1) rotate(0deg)"
+            }
+        ],
+        {
+            duration: 180,
+            easing: "ease-out"
+        }
+    );
+}
+
+
+/* ========================================= */
+/* WINDOW RESIZE */
+/* ========================================= */
+
+window.addEventListener("resize", () => {
+
+    if (!noButton || !noButtonReady) {
+        return;
+    }
+
+    /*
+        If the screen changes size, immediately
+        relocate the NO button so it cannot end
+        up outside the viewport.
+    */
+
+    moveNoButton(true);
 });
 
 
+/* ========================================= */
+/* CURSOR HEART */
+/* ========================================= */
+
+const cursorHeart = document.getElementById("cursorHeart");
+
+if (cursorHeart) {
+
+    document.body.style.cursor = "none";
+
+    cursorHeart.style.opacity = "1";
+    cursorHeart.style.position = "fixed";
+    cursorHeart.style.pointerEvents = "none";
+    cursorHeart.style.zIndex = "10000";
+
+    document.addEventListener("mousemove", event => {
+
+        cursorHeart.style.left = `${event.clientX}px`;
+        cursorHeart.style.top = `${event.clientY}px`;
+    });
+}
+
+
+/* ========================================= */
+/* CLICK HEARTS */
+/* ========================================= */
+
 document.addEventListener("click", event => {
+
+    /*
+        Don't create extra hearts when clicking
+        the NO button.
+    */
+
+    if (event.target === noButton) {
+        return;
+    }
 
     createHeart(
         event.clientX,
         event.clientY
     );
-
 });
 
 
 function createHeart(x, y) {
 
-    const heart =
-        document.createElement("span");
+    const heart = document.createElement("div");
 
-    heart.className =
-        "cursor-heart";
+    heart.className = "cursor-heart";
 
-    heart.textContent =
-        Math.random() > 0.5
-            ? "♡"
-            : "♥";
+    heart.textContent = "♡";
 
-    heart.style.left =
-        `${x}px`;
+    heart.style.position = "fixed";
+    heart.style.left = `${x}px`;
+    heart.style.top = `${y}px`;
+    heart.style.pointerEvents = "none";
+    heart.style.zIndex = "9998";
+    heart.style.opacity = "1";
 
-    heart.style.top =
-        `${y}px`;
+    document.body.appendChild(heart);
 
-    document.body.appendChild(
-        heart
-    );
-
-    setTimeout(() => {
-
+    heart.animate(
+        [
+            {
+                transform: "translate(-50%, -50%) scale(0.5)",
+                opacity: 0
+            },
+            {
+                transform: "translate(-50%, -70%) scale(1.2)",
+                opacity: 1
+            },
+            {
+                transform: "translate(-50%, -130%) scale(0.8)",
+                opacity: 0
+            }
+        ],
+        {
+            duration: 900,
+            easing: "ease-out"
+        }
+    ).onfinish = () => {
         heart.remove();
-
-    }, 1000);
-
+    };
 }
 
 
-/* =========================================
-   BIRTHDAY EXPLOSION
-========================================= */
+/* ========================================= */
+/* BIRTHDAY EXPLOSION */
+/* ========================================= */
 
 function birthdayExplosion() {
 
     const symbols = [
-
         "♡",
         "♥",
         "🎀",
         "🐹",
-        "🌸",
-        "✨",
-        "💗",
-        "⭐"
-
+        "✦",
+        "♡"
     ];
 
+    for (let i = 0; i < 20; i++) {
 
-    for (let i = 0; i < 35; i++) {
+        const particle = document.createElement("div");
 
-        setTimeout(() => {
+        particle.textContent =
+            symbols[
+                Math.floor(
+                    Math.random() * symbols.length
+                )
+            ];
 
-            const particle =
-                document.createElement("div");
+        particle.style.position = "fixed";
+        particle.style.left =
+            `${Math.random() * window.innerWidth}px`;
 
-            particle.className =
-                "birthday-particle";
+        particle.style.top =
+            `${Math.random() * window.innerHeight}px`;
 
-            particle.textContent =
-                symbols[
-                    Math.floor(
-                        Math.random() *
-                        symbols.length
-                    )
-                ];
+        particle.style.pointerEvents = "none";
+        particle.style.zIndex = "9998";
+        particle.style.fontSize =
+            `${18 + Math.random() * 18}px`;
 
-            particle.style.position =
-                "fixed";
+        particle.style.opacity = "1";
 
-            particle.style.pointerEvents =
-                "none";
+        document.body.appendChild(particle);
 
-            particle.style.zIndex =
-                "9998";
-
-            particle.style.left =
-                `${Math.random() * 100}vw`;
-
-            particle.style.top =
-                `${Math.random() * 100}vh`;
-
-            particle.style.fontSize =
-                `${18 + Math.random() * 18}px`;
-
-            document.body.appendChild(
-                particle
-            );
-
-
-            particle.animate(
-                [
-                    {
-                        opacity: 1,
-                        transform:
-                            "translateY(0) scale(1)"
-                    },
-
-                    {
-                        opacity: 0,
-                        transform:
-                            "translateY(-120px) scale(1.4) rotate(180deg)"
-                    }
-
-                ],
+        particle.animate(
+            [
                 {
-                    duration: 1800,
-                    easing: "ease-out",
-                    fill: "forwards"
+                    transform: "translateY(0) scale(0.5) rotate(0deg)",
+                    opacity: 0
+                },
+                {
+                    transform: "translateY(-50px) scale(1.2) rotate(15deg)",
+                    opacity: 1
+                },
+                {
+                    transform:
+                        `translateY(-${100 + Math.random() * 150}px)
+                         scale(0.7)
+                         rotate(${Math.random() * 180 - 90}deg)`,
+                    opacity: 0
                 }
-            );
-
-
-            setTimeout(() => {
-
-                particle.remove();
-
-            }, 1800);
-
-        }, i * 35);
-
+            ],
+            {
+                duration: 1400 + Math.random() * 700,
+                easing: "ease-out"
+            }
+        ).onfinish = () => {
+            particle.remove();
+        };
     }
-
 }
 
 
-/* =========================================
-   FINAL QUESTION GAME
-========================================= */
+/* ========================================= */
+/* CUSTOM LEAVE POPUP */
+/* ========================================= */
 
-const questionStart =
-    document.getElementById("questionStart");
+function showLeavePopup() {
 
-const questionIntro =
-    document.getElementById("questionIntro");
+    const popup = document.getElementById("leavePopup");
 
-const questionGame =
-    document.getElementById("questionGame");
+    if (!popup) return;
 
-const yesButton =
-    document.getElementById("yesButton");
-
-const noButton =
-    document.getElementById("noButton");
-
-const yesResult =
-    document.getElementById("yesResult");
-
-const noResult =
-    document.getElementById("noResult");
-
-const noMessage =
-    document.getElementById("noMessage");
-
-const answerArea =
-    document.getElementById("answerArea");
-
-
-let noAttempts = 0;
-
-
-/* =========================================
-   START QUESTION
-========================================= */
-
-if (questionStart) {
-
-    questionStart.addEventListener("click", () => {
-
-        /*
-            Hide the intro.
-        */
-
-        if (questionIntro) {
-
-            questionIntro.classList.add(
-                "hidden"
-            );
-
-            questionIntro.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        /*
-            Show the actual question.
-        */
-
-        setTimeout(() => {
-
-            if (questionGame) {
-
-                questionGame.classList.remove(
-                    "hidden"
-                );
-
-                questionGame.classList.add(
-                    "show"
-                );
-
-            }
-
-        }, 500);
-
-    });
-
+    popup.classList.remove("hidden");
 }
 
 
-/* =========================================
-   NO BUTTON
-========================================= */
+/* ========================================= */
+/* ESC KEY FOR MODAL */
+/* ========================================= */
 
-function moveNoButton() {
+document.addEventListener("keydown", event => {
 
-    if (!noButton) {
-        return;
+    if (event.key === "Escape") {
+
+        if (memoryModal) {
+            memoryModal.classList.add("hidden");
+        }
     }
-
-    noAttempts++;
-
-    const container =
-        noButton.parentElement;
-
-    if (!container) {
-        return;
-    }
-
-    const containerRect =
-        container.getBoundingClientRect();
-
-    const maxX =
-        Math.max(
-            0,
-            containerRect.width -
-            noButton.offsetWidth
-        );
-
-    const maxY =
-        Math.max(
-            0,
-            containerRect.height -
-            noButton.offsetHeight
-        );
-
-    const randomX =
-        Math.random() * maxX;
-
-    const randomY =
-        Math.random() * maxY;
-
-    noButton.style.position =
-        "absolute";
-
-    noButton.style.left =
-        `${randomX}px`;
-
-    noButton.style.top =
-        `${randomY}px`;
-
-
-    if (noMessage) {
-
-        if (noAttempts < 3) {
-
-            noMessage.textContent =
-                "Kushu pls T_T";
-
-        }
-
-        else if (noAttempts < 6) {
-
-            noMessage.textContent =
-                "WHY ARE YOU CHASING IT T_T";
-
-        }
-
-        else if (noAttempts < 9) {
-
-            noMessage.textContent =
-                "THE BUTTON IS SCARED.";
-
-        }
-
-        else {
-
-            noMessage.textContent =
-                "Okay T_T you caught me. That button never counted as an answer anyway. ♡";
-
-        }
-
-        noMessage.classList.add("show");
-
-    }
-
-}
-
-
-/* =========================================
-   NO BUTTON - DESKTOP
-========================================= */
-
-if (noButton) {
-
-    noButton.addEventListener(
-        "mouseenter",
-        () => {
-
-            if (noAttempts < 9) {
-                moveNoButton();
-            }
-
-        }
-    );
-
-
-    /* Mobile */
-
-    noButton.addEventListener(
-        "touchstart",
-        event => {
-
-            if (noAttempts < 9) {
-
-                event.preventDefault();
-
-                moveNoButton();
-
-            }
-
-        },
-        {
-            passive: false
-        }
-    );
-
-
-    /* Click fallback */
-
-    noButton.addEventListener(
-        "click",
-        event => {
-
-            if (noAttempts < 9) {
-
-                event.preventDefault();
-
-                moveNoButton();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   YES BUTTON
-========================================= */
-
-if (yesButton) {
-
-    yesButton.addEventListener("click", () => {
-
-        if (answerArea) {
-
-            answerArea.classList.add(
-                "answered"
-            );
-
-        }
-
-
-        /*
-            Hide the question itself.
-        */
-
-        if (questionGame) {
-
-            questionGame.classList.add(
-                "hidden"
-            );
-
-            questionGame.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        /*
-            Show YES result.
-        */
-
-        if (yesResult) {
-
-            yesResult.classList.remove(
-                "hidden"
-            );
-
-            yesResult.classList.add(
-                "show"
-            );
-
-        }
-
-
-        if (noResult) {
-
-            noResult.classList.add(
-                "hidden"
-            );
-
-            noResult.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        birthdayExplosion();
-
-
-        for (
-            let i = 0;
-            i < 15;
-            i++
-        ) {
-
-            setTimeout(() => {
-
-                createHeart(
-                    Math.random() *
-                    window.innerWidth,
-
-                    Math.random() *
-                    window.innerHeight
-                );
-
-            }, i * 100);
-
-        }
-
-    });
-
-}
-
-
-/* =========================================
-   CUSTOM LEAVING POPUP
-========================================= */
-
-let leavePopup = null;
-
-
-function createLeavePopup() {
-
-    if (
-        document.getElementById("leavePopup")
-    ) {
-
-        leavePopup =
-            document.getElementById(
-                "leavePopup"
-            );
-
-        return;
-
-    }
-
-
-    leavePopup =
-        document.createElement("div");
-
-
-    leavePopup.id =
-        "leavePopup";
-
-
-    leavePopup.innerHTML = `
-
-        <div class="leave-popup-box">
-
-            <div class="leave-popup-bow">
-                🎀
-            </div>
-
-            <h2>
-                Wait... you're leaving already?
-            </h2>
-
-            <p>
-                The hamster council would like to
-                formally request that you stay for
-                approximately 37 more seconds.
-            </p>
-
-            <div class="leave-popup-buttons">
-
-                <button
-                    id="stayButton"
-                    type="button"
-                >
-                    Stay a little longer ♡
-                </button>
-
-                <button
-                    id="leaveButton"
-                    type="button"
-                >
-                    I really have to go
-                </button>
-
-            </div>
-
-            <div class="leave-popup-hamster">
-                🐹
-            </div>
-
-        </div>
-
-    `;
-
-
-    document.body.appendChild(
-        leavePopup
-    );
-
-
-    const stayButton =
-        document.getElementById(
-            "stayButton"
-        );
-
-    const leaveButton =
-        document.getElementById(
-            "leaveButton"
-        );
-
-
-    if (stayButton) {
-
-        stayButton.addEventListener(
-            "click",
-            () => {
-
-                closeLeavePopup();
-
-            }
-        );
-
-    }
-
-
-    if (leaveButton) {
-
-        leaveButton.addEventListener(
-            "click",
-            () => {
-
-                closeLeavePopup();
-
-            }
-        );
-
-    }
-
-
-    leavePopup.addEventListener(
-        "click",
-        event => {
-
-            if (
-                event.target ===
-                leavePopup
-            ) {
-
-                closeLeavePopup();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   OPEN LEAVING POPUP
-========================================= */
-
-function openLeavePopup() {
-
-    createLeavePopup();
-
-    if (leavePopup) {
-
-        leavePopup.classList.add(
-            "show"
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   CLOSE LEAVING POPUP
-========================================= */
-
-function closeLeavePopup() {
-
-    if (leavePopup) {
-
-        leavePopup.classList.remove(
-            "show"
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   OPTIONAL LEAVE BUTTON
-========================================= */
-
-const leaveSiteButton =
-    document.getElementById(
-        "leaveSite"
-    );
-
-
-if (leaveSiteButton) {
-
-    leaveSiteButton.addEventListener(
-        "click",
-        event => {
-
-            event.preventDefault();
-
-            openLeavePopup();
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   ESCAPE KEY
-========================================= */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (event.key === "Escape") {
-
-            if (memoryModal) {
-
-                memoryModal.classList.remove(
-                    "show"
-                );
-
-                memoryModal.classList.add(
-                    "hidden"
-                );
-
-            }
-
-            closeLeavePopup();
-
-        }
-
-    }
-);
-
-
-/* =========================================
-   FINAL LITTLE TOUCH
-========================================= */
-
-window.addEventListener(
-    "load",
-    () => {
-
-        setTimeout(() => {
-
-            const openingBow =
-                document.querySelector(
-                    ".opening-bow"
-                );
-
-            if (openingBow) {
-
-                openingBow.classList.add(
-                    "wiggle"
-                );
-
-            }
-
-        }, 1000);
-
-    }
-);
+});
