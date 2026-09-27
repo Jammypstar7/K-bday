@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Kushu — After Dark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0609;
+    --bg-2: #150a10;
+    --ink: #ede3e6;
+    --ink-soft: #a892a0;
+    --blood: #8a1f3d;
+    --blood-light: #b84462;
+    --plum: #3d1a3f;
+    --border: #33202f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: radial-gradient(ellipse at top, var(--bg-2) 0%, var(--bg) 55%);
+    color: var(--ink);
+    font-family: 'Crimson Text', serif;
+    font-size: 1.15rem;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+  }
+  .flicker {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    animation: flicker 4s ease-in-out infinite;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+    52% { opacity: 0.9; }
+    54% { opacity: 0.4; }
+    56% { opacity: 1; }
+  }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    text-align: center;
+    font-size: clamp(2rem, 7vw, 2.7rem);
+    letter-spacing: 0.03em;
+    color: var(--blood-light);
+    margin: 0 0 0.3rem;
+  }
+  .sub {
+    text-align: center;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin: 0 0 3.5rem;
+  }
+  .rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    width: 120px;
+    margin: 3.2rem auto;
+  }
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: var(--blood-light);
+    text-align: center;
+    margin: 0 0 1.6rem;
+  }
+  .dates {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .dates li {
+    border-left: 2px solid var(--blood);
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    margin-bottom: 1.3rem;
+    color: var(--ink);
+  }
+  .dates li span {
+    display: block;
+    color: var(--ink-soft);
+    font-style: italic;
+    font-size: 0.98rem;
+    margin-top: 0.2rem;
+  }
+  .confession p {
+    max-width: 56ch;
+    margin: 0 auto 1.1rem;
+    text-align: center;
+  }
+  .confession p:last-child { margin-bottom: 0; }
+  .terms {
+    background: rgba(138, 31, 61, 0.08);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.8rem 2rem;
+    margin: 0;
+  }
+  .terms p { text-align: center; margin: 0 0 0.9rem; }
+  .terms p:last-child { margin-bottom: 0; }
+  .candle-section { text-align: center; }
+  #candle {
+    background: none;
+    border: 1px solid var(--blood);
+    color: var(--blood-light);
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    padding: 0.8rem 1.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  #candle:hover { background: var(--blood); color: var(--ink); }
+  .whisper {
+    max-width: 46ch;
+    margin: 1.6rem auto 0;
+    font-style: italic;
+    color: var(--ink-soft);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .whisper.show { opacity: 1; transform: translateY(0); }
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 4rem;
+    color: var(--ink-soft);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+  .back-link:hover { color: var(--blood-light); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="flicker">🕯️</div>
+  <h1>For the girl who sends me<br>haunted asylum reels</h1>
+  <p class="sub">a page for the other side of you</p>
+
+  <section>
+    <h2>Dates I would actually say yes to</h2>
+    <ul class="dates">
+      <li>The abandoned asylum tour<span>as long as you hold my hand when it gets quiet.</span></li>
+      <li>A graveyard walk at dusk<span>you read the headstones out loud, I pretend I'm not scared.</span></li>
+      <li>A horror movie marathon<span>you get the couch, I get whatever's left of my nerves.</span></li>
+      <li>Tarot by candlelight<span>I don't believe in it, but I believe in whatever you tell me it says.</span></li>
+      <li>Any place with a "do not enter" sign<span>you first, obviously.</span></li>
+    </ul>
+  </section>
+
+  <hr class="rule">
+
+  <section class="confession">
+    <h2>About the joke you keep making</h2>
+    <p>You keep saying you'll leave me at whichever haunted place we end up at — as a bit, mostly, I think.</p>
+    <p>Here's my counter-offer: tie me to a chair instead. Make me sit through every horror movie you've been dying to show someone. I'll survive it. I've survived worse — like you calling me "bauni" in front of people.</p>
+    <p>I'd rather be stuck somewhere with you than free anywhere without you. Gothic enough for you?</p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <div class="terms">
+      <p>This is the part of you that likes the dark, the dramatic, the slightly cursed — same as the part that likes hamsters in bows.</p>
+      <p>Both are yours. Both are mine to adore.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="candle-section">
+    <button id="candle" type="button">light the candle</button>
+    <p class="whisper" id="whisperText">Happy birthday, Kushu. Haunted places, dramatic reels, dark romance nonsense and all — I'm not going anywhere. 🖤</p>
+  </section>
+
+  <a class="back-link" href="index.html">← back to the cute side</a>
+</div>
+
+<script>
+  const btn = document.getElementById('candle');
+  const whisper = document.getElementById('whisperText');
+  btn.addEventListener('click', () => {
+    whisper.classList.add('show');
+  }, { once: true });
+</script>
+</body>
+</html>
