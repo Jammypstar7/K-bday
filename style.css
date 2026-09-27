@@ -885,13 +885,12 @@ button {
             calc(
                 var(--rotation, 5deg)
             )
-        )
-        scale(1.15);
+        ) !important;
 
 }
 
 
-.hamster:nth-child(3n) {
+.hamster:nth-child(3n):not(:hover) {
 
     transform:
         rotate(5deg);
@@ -899,7 +898,7 @@ button {
 }
 
 
-.hamster:nth-child(3n + 1) {
+.hamster:nth-child(3n + 1):not(:hover) {
 
     transform:
         rotate(-5deg);
@@ -945,13 +944,25 @@ button {
     display:
         flex;
 
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
     justify-content:
+        center;
+
+    text-align:
         center;
 
 }
 
 
 .letter {
+
+    text-align:
+        center;
 
     width:
         min(
@@ -1338,16 +1349,14 @@ button {
     100% {
 
         transform:
-            translateY(0)
-            rotate(-3deg);
+            translateY(0);
 
     }
 
     50% {
 
         transform:
-            translateY(-8px)
-            rotate(3deg);
+            translateY(-8px);
 
     }
 
