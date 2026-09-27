@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kushu's Cake Ceremony 🎂</title>
+
+<style>
+:root{
+  --pink:#e98aaa;
+  --light:#fff1f6;
+  --dark:#b84f73;
+  --ink:#30252b
+}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Georgia,"Times New Roman",serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%,#ffd8e6,transparent 28%),
+    radial-gradient(circle at 85% 20%,#ffeaf2,transparent 30%),
+    #fffafc;
+  overflow-x:hidden;
+  text-align:center
+}
+
+.wrap{
+  width:min(900px,calc(100% - 30px));
+  margin:auto;
+  padding:45px 0 70px
+}
+
+.back{
+  display:inline-block;
+  color:var(--dark);
+  text-decoration:none;
+  margin-bottom:25px
+}
+
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:4px;
+  font-size:.75rem;
+  color:var(--dark)
+}
+
+h1{
+  font-size:clamp(2.4rem,8vw,5rem);
+  line-height:1.05;
+  margin:12px 0;
+  color:var(--dark)
+}
+
+.intro{
+  color:#756a70;
+  line-height:1.8
+}
+
+.ceremony{
+  margin:35px auto;
+  padding:28px 20px 35px;
+  background:rgba(255,255,255,.82);
+  border:2px solid #f8c9d8;
+  border-radius:35px;
+  box-shadow:0 20px 60px rgba(170,70,110,.12)
+}
+
+.status{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:10px auto 25px
+}
+
+.person{
+  padding:10px 16px;
+  border-radius:999px;
+  background:#fff1f6;
+  color:var(--dark);
+  font-weight:bold
+}
+
+.person.ready{
+  background:#e98aaa;
+  color:white
+}
+
+.cake-stage{
+  position:relative;
+  height:390px;
+  max-width:620px;
+  margin:auto;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:65px
+}
+
+.plate{
+  position:absolute;
+  bottom:38px;
+  width:min(500px,80%);
+  height:35px;
+  border-radius:50%;
+  background:#f8c9d8;
+  box-shadow:0 8px 0 #e9a4bd
+}
+
+.cake{
+  position:relative;
+  width:280px;
+  height:175px;
+  border-radius:25px 25px 35px 35px;
+  background:linear-gradient(#ffd6e4 0 25%,#fff 25% 36%,#f6a8c3 36% 100%);
+  box-shadow:
+    inset 0 -12px 0 rgba(184,79,115,.13),
+    0 20px 30px rgba(184,79,115,.15);
+  z-index:2
+}
+
+.cake:before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:20px;
+  height:38px;
+  border-radius:50%;
+  background:#fff4f8;
+  box-shadow:0 3px 0 #f8c9d8
+}
+
+.cake-text{
+  position:absolute;
+  inset:70px 0 auto;
+  font-weight:bold;
+  color:var(--dark);
+  font-size:1.35rem;
+  z-index:4
+}
+
+.candles{
+  position:absolute;
+  top:-63px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:22px;
+  z-index:5
+}
+
+.candle{
+  position:relative;
+  width:12px;
+  height:55px;
+  background:#e98aaa;
+  border-radius:5px
+}
+
+.flame{
+  position:absolute;
+  left:50%;
+  top:-22px;
+  transform:translateX(-50%);
+  font-size:1.5rem;
+  animation:flicker .65s infinite alternate
+}
+
+.flame.off{
+  display:none
+}
+
+@keyframes flicker{
+  from{
+    transform:translateX(-50%) scale(.85)
+  }
+  to{
+    transform:translateX(-50%) scale(1.1)
+  }
+}
+
+.knife{
+  position:absolute;
+  z-index:10;
+  right:9%;
+  top:55px;
+  font-size:3rem;
+  background:white;
+  border:2px solid #f8c9d8;
+  border-radius:18px;
+  padding:10px 15px;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
+  transition:transform .2s
+}
+
+.knife:hover{
+  transform:rotate(-8deg) scale(1.08)
+}
+
+.knife.cut{
+  animation:cut .7s ease-in-out
+}
+
+@keyframes cut{
+  50%{
+    transform:translate(-120px,150px) rotate(-55deg)
+  }
+
+  100%{
+    transform:translate(0,0)
+  }
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap
+}
+
+.btn{
+  border:0;
+  border-radius:999px;
+  padding:13px 22px;
+  font:inherit;
+  font-weight:bold;
+  cursor:pointer;
+  background:var(--pink);
+  color:white;
+  box-shadow:0 8px 20px rgba(220,100,150,.2)
+}
+
+.btn.secondary{
+  background:#fff1f6;
+  color:var(--dark);
+  border:1px solid #f8c9d8
+}
+
+.message{
+  min-height:35px;
+  margin:20px auto 0;
+  color:var(--dark);
+  font-weight:bold
+}
+
+.cut-result{
+  display:none;
+  margin-top:25px;
+  padding:22px;
+  border-radius:25px;
+  background:#fff1f6
+}
+
+.cut-result.show{
+  display:block
+}
+
+.confetti{
+  position:fixed;
+  left:50%;
+  top:50%;
+  font-size:1.8rem;
+  pointer-events:none;
+  z-index:9999;
+  animation:fly 1.5s ease-out forwards
+}
+
+@keyframes fly{
+  from{
+    transform:translate(-50%,-50%) scale(.5);
+    opacity:1
+  }
+
+  to{
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      rotate(540deg);
+    opacity:0
+  }
+}
+
+@media(max-width:600px){
+
+  .cake-stage{
+    height:330px
+  }
+
+  .cake{
+    width:230px;
+    height:145px
+  }
+
+  .knife{
+    right:1%;
+    top:30px;
+    font-size:2.2rem
+  }
+
+  .candles{
+    gap:14px
+  }
+
+  .candle{
+    height:45px
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<a class="back" href="index.html">
+← back to Kushu's birthday page
+</a>
+
+<div class="eyebrow">
+extremely important birthday ceremony
+</div>
+
+<h1>
+🎂 Cut the Cake, Kushu 🎀
+</h1>
+
+<p class="intro">
+Aashu and Kushu have been officially summoned.<br>
+There is cake. There are hamsters. This is serious business.
+</p>
+
+<section class="ceremony">
+
+<div class="status">
+
+<div class="person" id="aashuStatus">
+🐹 Aashu: not ready
+</div>
+
+<div class="person" id="kushuStatus">
+🎀 Kushu: not ready
+</div>
+
+</div>
+
+<div class="cake-stage">
+
+<div class="plate"></div>
+
+<div class="cake">
+
+<div class="candles">
+
+<div class="candle">
+<span class="flame">🔥</span>
+</div>
+
+<div class="candle">
+<span class="flame">🔥</span>
+</div>
+
+<div class="candle">
+<span class="flame">🔥</span>
+</div>
+
+</div>
+
+<div class="cake-text">
+KUSHU ♡
+</div>
+
+</div>
+
+<button
+  class="knife"
+  id="knife"
+  type="button"
+  aria-label="Cut the cake">
+🔪
+</button>
+
+</div>
+
+<div class="controls">
+
+<button class="btn" id="readyAashu">
+Aashu is ready 🐹
+</button>
+
+<button class="btn secondary" id="readyKushu">
+Kushu is ready 🎀
+</button>
+
+</div>
+
+<div class="message" id="message">
+Connecting to the birthday room... 🎂
+</div>
+
+<div class="cut-result" id="result">
+
+<strong>
+🎉 THE CAKE HAS BEEN CUT! 🎉
+</strong>
+
+<br><br>
+
+Happy Birthday, Kushu. ♡
+
+<br><br>
+
+Now eat the imaginary cake before the hamsters do.
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+
+/* YOUR FIREBASE PROJECT */
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyCIlNpAU19yzFxb6Pf_Mqyv8gjD0shLZG0",
+
+  authDomain: "kushu-birthday.firebaseapp.com",
+
+  databaseURL:
+    "https://kushu-birthday-default-rtdb.firebaseio.com",
+
+  projectId: "kushu-birthday",
+
+  storageBucket:
+    "kushu-birthday.firebasestorage.app",
+
+  messagingSenderId: "252514365666",
+
+  appId:
+    "1:252514365666:web:fc628d727905b2d347aebb",
+
+  measurementId: "G-S9ZFYRP7VM"
+
+};
+
+
+/* START FIREBASE */
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+
+/* OUR SHARED BIRTHDAY ROOM */
+
+const roomRef = ref(db, "birthdayRoom");
+
+
+/* HTML ELEMENTS */
+
+const aashuStatus =
+  document.getElementById("aashuStatus");
+
+const kushuStatus =
+  document.getElementById("kushuStatus");
+
+const readyAashu =
+  document.getElementById("readyAashu");
+
+const readyKushu =
+  document.getElementById("readyKushu");
+
+const knife =
+  document.getElementById("knife");
+
+const message =
+  document.getElementById("message");
+
+const result =
+  document.getElementById("result");
+
+
+/* LOCAL COPY OF THE SHARED STATE */
+
+let aashu = false;
+let kushu = false;
+let cut = false;
+
+
+/* UPDATE THE SCREEN */
+
+function updateScreen(){
+
+  aashuStatus.textContent =
+    aashu
+      ? "🐹 Aashu: READY!"
+      : "🐹 Aashu: not ready";
+
+  kushuStatus.textContent =
+    kushu
+      ? "🎀 Kushu: READY!"
+      : "🎀 Kushu: not ready";
+
+
+  aashuStatus.classList.toggle(
+    "ready",
+    aashu
+  );
+
+  kushuStatus.classList.toggle(
+    "ready",
+    kushu
+  );
+
+
+  if(cut){
+
+    message.textContent =
+      "CUT! 🎂";
+
+    result.classList.add("show");
+
+  }
+
+  else if(aashu && kushu){
+
+    message.textContent =
+      "BOTH READY. THE HAMSTER COUNCIL APPROVES. 🎂";
+
+  }
+
+  else{
+
+    message.textContent =
+      "Both people must be ready before the cake can be cut.";
+
+  }
+
+}
+
+
+/* CAKE CUTTING EFFECT */
+
+function showCutAnimation(){
+
+  knife.classList.remove("cut");
+
+  /* force browser to restart animation */
+
+  void knife.offsetWidth;
+
+  knife.classList.add("cut");
+
+
+  document
+    .querySelectorAll(".flame")
+    .forEach(
+      flame => flame.classList.add("off")
+    );
+
+
+  for(let i = 0; i < 45; i++){
+
+    const p =
+      document.createElement("div");
+
+    p.className = "confetti";
+
+    p.textContent =
+      ["🎀","🐹","💗","✨","🎉","🍰"]
+      [Math.floor(Math.random()*6)];
+
+
+    p.style.setProperty(
+      "--x",
+      `${Math.random()*700-350}px`
+    );
+
+    p.style.setProperty(
+      "--y",
+      `${Math.random()*500-250}px`
+    );
+
+
+    document.body.appendChild(p);
+
+
+    setTimeout(
+      () => p.remove(),
+      1600
+    );
+
+  }
+
+}
+
+
+/* LISTEN TO FIREBASE */
+
+onValue(
+  roomRef,
+  snapshot => {
+
+    const data = snapshot.val();
+
+
+    if(data){
+
+      aashu =
+        data.aashu || false;
+
+      kushu =
+        data.kushu || false;
+
+      const newCut =
+        data.cut || false;
+
+
+      /*
+        If Firebase tells this device
+        that the cake has JUST been cut,
+        play the animation.
+      */
+
+      if(newCut && !cut){
+
+        cut = true;
+
+        updateScreen();
+
+        showCutAnimation();
+
+      }
+
+      else{
+
+        cut = newCut;
+
+        updateScreen();
+
+      }
+
+    }
+
+    else{
+
+      updateScreen();
+
+    }
+
+  },
+
+  error => {
+
+    console.error(
+      "Firebase error:",
+      error
+    );
+
+    message.textContent =
+      "Couldn't connect to the birthday room 😭";
+
+  }
+
+);
+
+
+/* AASHU READY */
+
+readyAashu.onclick = async () => {
+
+  if(cut) return;
+
+
+  await set(
+    roomRef,
+    {
+      aashu: !aashu,
+      kushu: kushu,
+      cut: false
+    }
+  );
+
+};
+
+
+/* KUSHU READY */
+
+readyKushu.onclick = async () => {
+
+  if(cut) return;
+
+
+  await set(
+    roomRef,
+    {
+      aashu: aashu,
+      kushu: !kushu,
+      cut: false
+    }
+  );
+
+};
+
+
+/* CUT THE CAKE */
+
+knife.onclick = async () => {
+
+  if(cut) return;
+
+
+  if(!aashu || !kushu){
+
+    message.textContent =
+      "Nice try. The cake demands TWO ready people. 😭";
+
+    return;
+
+  }
+
+
+  /*
+    We don't cut locally anymore.
+
+    We tell Firebase:
+
+        cut = true
+
+    Firebase then tells BOTH devices.
+
+    Both devices perform the animation.
+  */
+
+  await set(
+    roomRef,
+    {
+      aashu: true,
+      kushu: true,
+      cut: true
+    }
+  );
+
+};
+
+
+/* INITIAL MESSAGE */
+
+message.textContent =
+  "Connected! Waiting for both hamsters... 🐹🎀";
+
+</script>
+
+</body>
+</html>
